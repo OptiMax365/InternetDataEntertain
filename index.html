@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Everything Data Entertain</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --bg: #0a0a0f;
+    --card: #13131a;
+    --card2: #1a1a24;
+    --accent: #7c3aed;
+    --accent2: #a78bfa;
+    --pink: #ec4899;
+    --blue: #3b82f6;
+    --green: #10b981;
+    --orange: #f59e0b;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --border: #2a2a3a;
+    --radius: 16px;
+  }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { cursor: pointer; border: none; font-family: inherit; }
+
+  /* ── HEADER ── */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(10,10,15,.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    font-size: 26px; font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+  }
+  .logo span { font-weight: 400; opacity: .7; }
+  .search-bar {
+    flex: 1; max-width: 520px; margin: 0 32px; position: relative;
+  }
+  .search-bar input {
+    width: 100%; padding: 10px 20px 10px 44px;
+    border-radius: 50px; border: 1px solid var(--border);
+    background: var(--card2); color: var(--text); font-size: 14px;
+    outline: none; transition: .3s;
+  }
+  .search-bar input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,58,237,.2); }
+  .search-bar svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); opacity: .5; }
+  .header-actions { display: flex; gap: 12px; align-items: center; }
+  .btn {
+    padding: 8px 20px; border-radius: 50px; font-weight: 600; font-size: 13px;
+    transition: .3s; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    color: #fff;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(124,58,237,.4); }
+  .btn-ghost {
+    background: transparent; color: var(--text2); border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--text); }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px;
+  }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    position: fixed; top: 64px; left: 0; right: 0; z-index: 999;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+    padding: 0 24px; gap: 4px;
+    overflow-x: auto;
+  }
+  .nav-tab {
+    padding: 14px 20px; font-size: 14px; font-weight: 500;
+    color: var(--text2); white-space: nowrap; position: relative;
+    transition: .3s; background: none;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active {
+    color: var(--accent2);
+  }
+  .nav-tab.active::after {
+    content: ''; position: absolute; bottom: 0; left: 20px; right: 20px;
+    height: 2px; background: linear-gradient(90deg, var(--accent), var(--pink));
+    border-radius: 2px;
+  }
+  .nav-tab .badge {
+    background: var(--red); color: #fff; font-size: 10px;
+    padding: 1px 6px; border-radius: 50px; margin-left: 6px;
+  }
+
+  /* ── LAYOUT ── */
+  .main { padding-top: 120px; padding-bottom: 40px; max-width: 1400px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+  .section-title {
+    font-size: 22px; font-weight: 700; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title .icon {
+    width: 32px; height: 32px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+
+  /* ── HERO / STORIES ── */
+  .stories-bar {
+    display: flex; gap: 16px; padding: 16px 0;
+    overflow-x: auto; margin-bottom: 24px;
+  }
+  .stories-bar::-webkit-scrollbar { display: none; }
+  .story-item {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    cursor: pointer; flex-shrink: 0;
+  }
+  .story-ring {
+    width: 68px; height: 68px; border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, var(--accent), var(--pink), var(--orange));
+  }
+  .story-ring img {
+    width: 100%; height: 100%; border-radius: 50%;
+    object-fit: cover; border: 3px solid var(--bg);
+  }
+  .story-ring .add-icon {
+    width: 100%; height: 100%; border-radius: 50%;
+    background: var(--card2); display: flex;
+    align-items: center; justify-content: center;
+    border: 3px solid var(--bg); font-size: 24px; color: var(--accent2);
+  }
+  .story-name { font-size: 11px; color: var(--text2); max-width: 70px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* ── TRENDING BAR ── */
+  .trending-bar {
+    display: flex; gap: 8px; margin-bottom: 28px; overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .trending-bar::-webkit-scrollbar { display: none; }
+  .trend-tag {
+    padding: 6px 16px; border-radius: 50px; font-size: 13px;
+    background: var(--card); border: 1px solid var(--border);
+    white-space: nowrap; transition: .3s;
+  }
+  .trend-tag:hover { border-color: var(--accent); background: var(--card2); }
+  .trend-tag.active {
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    border-color: transparent; color: #fff;
+  }
+
+  /* ── GRID LAYOUTS ── */
+  .grid-masonry {
+    columns: 4; column-gap: 16px;
+  }
+  @media(max-width:1200px) { .grid-masonry { columns: 3; } }
+  @media(max-width:900px) { .grid-masonry { columns: 2; } }
+  @media(max-width:600px) { .grid-masonry { columns: 1; } }
+
+  .grid-cards {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  @media(max-width:700px) { .grid-cards { grid-template-columns: 1fr; } }
+
+  /* ── MEDIA CARD ── */
+  .media-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: .3s;
+    break-inside: avoid;
+    margin-bottom: 16px;
+  }
+  .media-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(124,58,237,.15);
+  }
+  .media-card .media-wrap {
+    position: relative; overflow: hidden;
+    background: var(--card2);
+  }
+  .media-card img, .media-card video {
+    width: 100%; display: block;
+  }
+  .media-card .play-overlay {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px; height: 60px; border-radius: 50%;
+    background: rgba(0,0,0,.6); backdrop-filter: blur(10px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: .3s;
+  }
+  .media-card:hover .play-overlay { opacity: 1; }
+  .media-card .duration {
+    position: absolute; bottom: 8px; right: 8px;
+    background: rgba(0,0,0,.8); padding: 2px 8px;
+    border-radius: 6px; font-size: 12px; font-weight: 600;
+  }
+  .media-card .live-badge {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--red); padding: 4px 10px;
+    border-radius: 6px; font-size: 11px; font-weight: 700;
+    animation: pulse-live 2s infinite;
+  }
+  @keyframes pulse-live {
+    0%,100% { opacity: 1; }
+    50% { opacity: .7; }
+  }
+  .media-card .gif-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--orange); color: #000; padding: 2px 8px;
+    border-radius: 6px; font-size: 11px; font-weight: 800;
+  }
+  .media-card .hd-badge {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--accent); padding: 2px 8px;
+    border-radius: 6px; font-size: 11px; font-weight: 700;
+  }
+  .media-card .card-body { padding: 14px; }
+  .media-card .card-title {
+    font-size: 14px; font-weight: 600; margin-bottom: 6px;
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .media-card .card-meta {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text2);
+  }
+  .media-card .card-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    object-fit: cover;
+  }
+  .media-card .card-stats {
+    display: flex; gap: 12px; padding-top: 10px;
+    margin-top: 10px; border-top: 1px solid var(--border);
+  }
+  .media-card .stat-btn {
+    background: none; color: var(--text2); font-size: 12px;
+    display: flex; align-items: center; gap: 4px; transition: .3s;
+  }
+  .media-card .stat-btn:hover { color: var(--accent2); }
+  .media-card .stat-btn.liked { color: var(--red); }
+
+  /* ── VIDEO CARD (Large) ── */
+  .video-card-large {
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: .3s;
+  }
+  .video-card-large:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 30px rgba(124,58,237,.15);
+  }
+  .video-card-large .thumb {
+    position: relative; aspect-ratio: 16/9;
+    background: var(--card2); overflow: hidden;
+  }
+  .video-card-large .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .video-card-large .progress-bar {
+    position: absolute; bottom: 0; left: 0; height: 3px;
+    background: var(--accent); border-radius: 3px;
+  }
+  .video-card-large .info { padding: 14px; display: flex; gap: 12px; }
+  .video-card-large .info .ch-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    flex-shrink: 0; object-fit: cover;
+  }
+  .video-card-large .info h3 {
+    font-size: 14px; font-weight: 600; margin-bottom: 4px;
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .video-card-large .info p {
+    font-size: 12px; color: var(--text2);
+  }
+
+  /* ── UPLOAD MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 2000;
+    background: rgba(0,0,0,.7); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    width: 90%; max-width: 600px;
+    max-height: 80vh; overflow-y: auto;
+    padding: 32px;
+    animation: modalIn .3s ease;
+  }
+  @keyframes modalIn {
+    from { transform: scale(.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .modal h2 {
+    font-size: 22px; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .modal .close-btn {
+    position: absolute; top: 16px; right: 16px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--card2); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 18px; color: var(--text2);
+  }
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 48px 24px;
+    text-align: center;
+    transition: .3s;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--accent);
+    background: rgba(124,58,237,.05);
+  }
+  .upload-zone .icon { font-size: 48px; margin-bottom: 12px; }
+  .upload-zone p { color: var(--text2); font-size: 14px; }
+  .upload-zone .browse { color: var(--accent2); text-decoration: underline; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block; font-size: 13px; font-weight: 600;
+    margin-bottom: 6px; color: var(--text2);
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 10px 14px;
+    border-radius: 12px; border: 1px solid var(--border);
+    background: var(--card2); color: var(--text);
+    font-size: 14px; outline: none; transition: .3s;
+    font-family: inherit;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--accent);
+  }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .tag-input {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding: 8px 12px; border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--card2); min-height: 42px;
+    align-items: center;
+  }
+  .tag-input .tag {
+    background: var(--accent); color: #fff;
+    padding: 2px 10px; border-radius: 50px;
+    font-size: 12px; display: flex; align-items: center; gap: 4px;
+  }
+  .tag-input .tag button {
+    background: none; color: #fff; font-size: 14px;
+    display: flex; align-items: center;
+  }
+  .tag-input input {
+    border: none; background: transparent;
+    flex: 1; min-width: 100px; padding: 4px;
+    color: var(--text); font-size: 14px; outline: none;
+  }
+  .modal-actions {
+    display: flex; gap: 12px; justify-content: flex-end;
+    margin-top: 24px;
+  }
+
+  /* ── SIDEBAR (Live / Trending) ── */
+  .two-col {
+    display: grid; grid-template-columns: 1fr 340px; gap: 28px;
+  }
+  @media(max-width:1000px) { .two-col { grid-template-columns: 1fr; } }
+  .sidebar-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .sidebar-card h3 {
+    font-size: 16px; font-weight: 700; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .sidebar-list-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-list-item:last-child { border-bottom: none; }
+  .sidebar-list-item .rank {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: var(--card2); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: var(--text2);
+  }
+  .sidebar-list-item .rank.gold { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; }
+  .sidebar-list-item .rank.silver { background: linear-gradient(135deg, #94a3b8, #64748b); color: #000; }
+  .sidebar-list-item .rank.bronze { background: linear-gradient(135deg, #d97706, #92400e); color: #fff; }
+  .sidebar-list-item .info { flex: 1; }
+  .sidebar-list-item .info h4 { font-size: 13px; font-weight: 600; }
+  .sidebar-list-item .info p { font-size: 11px; color: var(--text2); }
+  .sidebar-list-item .views { font-size: 11px; color: var(--text2); text-align: right; }
+
+  /* ── LIVE STREAM CARD ── */
+  .live-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 16px;
+    transition: .3s;
+  }
+  .live-card:hover {
+    border-color: var(--red);
+    box-shadow: 0 0 20px rgba(239,68,68,.15);
+  }
+  .live-card .thumb {
+    position: relative; aspect-ratio: 16/9;
+    background: var(--card2); overflow: hidden;
+  }
+  .live-card .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .live-card .viewers {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(0,0,0,.7); padding: 3px 10px;
+    border-radius: 6px; font-size: 11px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .live-card .viewers .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--red);
+  }
+  .live-card .info { padding: 12px 14px; display: flex; gap: 10px; align-items: center; }
+  .live-card .info img {
+    width: 32px; height: 32px; border-radius: 50%;
+  }
+  .live-card .info h4 { font-size: 13px; font-weight: 600; }
+  .live-card .info p { font-size: 11px; color: var(--text2); }
+
+  /* ── SCRIPT / CODE CARD ── */
+  .code-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 16px;
+    transition: .3s;
+  }
+  .code-card:hover {
+    border-color: var(--green);
+  }
+  .code-card .code-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--card2);
+    border-bottom: 1px solid var(--border);
+  }
+  .code-card .code-header .lang {
+    font-size: 12px; font-weight: 700;
+    padding: 3px 10px; border-radius: 6px;
+  }
+  .code-card .code-header .lang.js { background: #f7df1e22; color: #f7df1e; }
+  .code-card .code-header .lang.py { background: #3776ab22; color: #6ba3d9; }
+  .code-card .code-header .lang.html { background: #e34c2622; color: #e34c26; }
+  .code-card .code-header .lang.css { background: #264de422; color: #6ba3d9; }
+  .code-card pre {
+    padding: 16px; font-size: 13px; line-height: 1.6;
+    overflow-x: auto; font-family: 'Fira Code', 'Consolas', monospace;
+    color: var(--text2);
+    max-height: 200px;
+  }
+  .code-card .code-footer {
+    padding: 10px 16px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .code-card .code-footer span { font-size: 12px; color: var(--text2); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    padding: 40px 24px;
+    margin-top: 60px;
+  }
+  .footer-grid {
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+  @media(max-width:700px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  .footer-col h4 { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--accent2); }
+  .footer-col a { display: block; font-size: 13px; color: var(--text2); padding: 4px 0; transition: .3s; }
+  .footer-col a:hover { color: var(--text); padding-left: 4px; }
+  .footer-bottom {
+    max-width: 1400px; margin: 24px auto 0;
+    padding-top: 20px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--text2);
+  }
+
+  /* ── SCROLL TO TOP ── */
+  .scroll-top {
+    position: fixed; bottom: 24px; right: 24px;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    display: none; align-items: center; justify-content: center;
+    font-size: 20px; z-index: 100;
+    box-shadow: 0 4px 20px rgba(124,58,237,.4);
+    transition: .3s;
+  }
+  .scroll-top:hover { transform: translateY(-3px); }
+  .scroll-top.show { display: flex; }
+
+  /* ── LOADER ── */
+  .loader {
+    text-align: center; padding: 40px;
+    color: var(--text2); font-size: 14px;
+  }
+  .loader .spinner {
+    width: 36px; height: 36px; border: 3px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 12px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── NOTIFICATION TOAST ── */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 24px;
+    display: flex; align-items: center; gap: 10px;
+    z-index: 3000;
+    box-shadow: 0 8px 30px rgba(0,0,0,.4);
+    transition: .4s;
+    font-size: 14px;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast .toast-icon { font-size: 20px; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-in {
+    animation: fadeIn .5s ease forwards;
+  }
+
+  /* ── FILTER PILLS ── */
+  .filter-pills {
+    display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .filter-pill {
+    padding: 6px 16px; border-radius: 50px;
+    font-size: 12px; font-weight: 600;
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--text2); transition: .3s;
+  }
+  .filter-pill:hover, .filter-pill.active {
+    background: var(--accent); border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* ── TAB CONTENT ── */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── EMBED ── */
+  .embed-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: #000;
+  }
+  .embed-container iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+
+  /* ── PROFILE ── */
+  .profile-header {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    display: flex; gap: 24px; align-items: center;
+    margin-bottom: 28px;
+  }
+  .profile-header .big-avatar {
+    width: 100px; height: 100px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; font-weight: 800; flex-shrink: 0;
+  }
+  .profile-header .info h1 { font-size: 24px; font-weight: 800; }
+  .profile-header .info p { color: var(--text2); font-size: 14px; }
+  .profile-header .stats {
+    display: flex; gap: 24px; margin-top: 10px;
+  }
+  .profile-header .stats .stat { text-align: center; }
+  .profile-header .stats .stat strong { font-size: 18px; display: block; }
+  .profile-header .stats .stat span { font-size: 12px; color: var(--text2); }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:700px) {
+    header { padding: 0 12px; }
+    .search-bar { margin: 0 12px; }
+    .main { padding-left: 12px; padding-right: 12px; }
+    .btn span.hide-mobile { display: none; }
+    .profile-header { flex-direction: column; text-align: center; }
+    .profile-header .stats { justify-content: center; }
+  }
+
+  /* ── THEME TOGGLE ── */
+  .theme-light {
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --card2: #e2e8f0;
+    --text: #0f172a;
+    --text2: #475569;
+    --border: #cbd5e1;
+  }
+
+  /* ── WATERFALL / MASONRY ── */
+  .masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── COMMENT SECTION ── */
+  .comment-section { padding: 12px 14px; border-top: 1px solid var(--border); }
+  .comment {
+    display: flex; gap: 8px; margin-bottom: 10px;
+  }
+  .comment .c-avatar {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--card2); flex-shrink: 0;
+  }
+  .comment .c-body { flex: 1; }
+  .comment .c-body strong { font-size: 12px; }
+  .comment .c-body p { font-size: 12px; color: var(--text2); }
+  .comment-input {
+    display: flex; gap: 8px; align-items: center;
+  }
+  .comment-input input {
+    flex: 1; padding: 8px 12px; border-radius: 50px;
+    border: 1px solid var(--border); background: var(--card2);
+    color: var(--text); font-size: 12px; outline: none;
+  }
+
+  /* ── CATEGORY ICON GRID ── */
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .cat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: .3s;
+  }
+  .cat-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+  .cat-card .cat-icon { font-size: 32px; margin-bottom: 8px; }
+  .cat-card .cat-name { font-size: 12px; font-weight: 600; }
+  .cat-card .cat-count { font-size: 11px; color: var(--text2); }
+
+  /* ── IMAGE FULL VIEW ── */
+  .image-full-view {
+    display: none;
+    position: fixed; inset: 0; z-index: 2000;
+    background: rgba(0,0,0,.9);
+    align-items: center; justify-content: center;
+    cursor: zoom-out;
+  }
+  .image-full-view.show { display: flex; }
+  .image-full-view img {
+    max-width: 90%; max-height: 90%;
+    object-fit: contain; border-radius: 12px;
+  }
+
+  /* ── MUSIC PLAYER ── */
+  .music-player {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 16px;
+  }
+  .music-player .album-art {
+    width: 56px; height: 56px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; flex-shrink: 0;
+  }
+  .music-player .track-info { flex: 1; }
+  .music-player .track-info h4 { font-size: 14px; font-weight: 600; }
+  .music-player .track-info p { font-size: 12px; color: var(--text2); }
+  .music-player .controls { display: flex; gap: 8px; }
+  .music-player .controls button {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--card2); color: var(--text);
+    display: flex; align-items: center; justify-content: center;
+    transition: .3s; font-size: 14px;
+  }
+  .music-player .controls button:hover { background: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header>
+  <div class="logo">NetVerse<span> .io</span></div>
+  <div class="search-bar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" placeholder="Search videos, images, GIFs, memes, code..." id="searchInput" oninput="filterContent()">
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-ghost" onclick="toggleTheme()">🌓 <span class="hide-mobile">Theme</span></button>
+    <button class="btn btn-primary" onclick="openUploadModal()">➕ <span class="hide-mobile">Upload</span></button>
+    <div class="avatar" onclick="showTab('profile')">Y</div>
+  </div>
+</header>
+
+<!-- ═══════════ NAV TABS ═══════════ -->
+<nav class="nav-tabs" id="navTabs">
+  <button class="nav-tab active" data-tab="home" onclick="showTab('home')">🏠 Home</button>
+  <button class="nav-tab" data-tab="trending" onclick="showTab('trending')">🔥 Trending <span class="badge">24</span></button>
+  <button class="nav-tab" data-tab="videos" onclick="showTab('videos')">🎬 Videos</button>
+  <button class="nav-tab" data-tab="images" onclick="showTab('images')">🖼️ Images</button>
+  <button class="nav-tab" data-tab="gifs" onclick="showTab('gifs')">✨ GIFs</button>
+  <button class="nav-tab" data-tab="live" onclick="showTab('live')">📡 Live</button>
+  <button class="nav-tab" data-tab="scripts" onclick="showTab('scripts')">💻 Scripts</button>
+  <button class="nav-tab" data-tab="music" onclick="showTab('music')">🎵 Music</button>
+  <button class="nav-tab" data-tab="memes" onclick="showTab('memes')">😂 Memes</button>
+  <button class="nav-tab" data-tab="profile" onclick="showTab('profile')">👤 Profile</button>
+</nav>
+
+<!-- ═══════════ MAIN CONTENT ═══════════ -->
+<main class="main">
+
+  <!-- ─── HOME TAB ─── -->
+  <div class="tab-content active" id="tab-home">
+    <!-- Stories -->
+    <div class="stories-bar" id="storiesBar"></div>
+
+    <!-- Trending Tags -->
+    <div class="trending-bar" id="trendingBar"></div>
+
+    <!-- Categories -->
+    <div class="section-title"><div class="icon" style="background:rgba(124,58,237,.2);color:var(--accent2)">📂</div> Browse Categories</div>
+    <div class="category-grid" id="categoryGrid"></div>
+
+    <!-- Mixed Feed -->
+    <div class="two-col">
+      <div>
+        <div class="section-title"><div class="icon" style="background:rgba(236,72,153,.2);color:var(--pink)">⚡</div> For You Feed</div>
+        <div class="filter-pills">
+          <button class="filter-pill active" onclick="filterFeed(this,'all')">All</button>
+          <button class="filter-pill" onclick="filterFeed(this,'video')">Videos</button>
+          <button class="filter-pill" onclick="filterFeed(this,'image')">Images</button>
+          <button class="filter-pill" onclick="filterFeed(this,'gif')">GIFs</button>
+          <button class="filter-pill" onclick="filterFeed(this,'code')">Code</button>
+        </div>
+        <div class="grid-cards" id="feedGrid"></div>
+        <div class="loader" id="feedLoader">
+          <div class="spinner"></div>
+          Loading more content from the internet...
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div>
+        <div class="sidebar-card">
+          <h3>🔥 Trending Now</h3>
+          <div id="trendingList"></div>
+        </div>
+        <div class="sidebar-card">
+          <h3>📡 Live Streams</h3>
+          <div id="liveList"></div>
+        </div>
+        <div class="sidebar-card">
+          <h3>👥 Suggested Creators</h3>
+          <div id="suggestedCreators"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TRENDING TAB ─── -->
+  <div class="tab-content" id="tab-trending">
+    <div class="section-title"><div class="icon" style="background:rgba(245,158,11,.2);color:var(--orange)">🔥</div> Trending Across the Internet</div>
+    <div class="trending-bar" id="trendingBar2"></div>
+    <div class="grid-cards" id="trendingGrid"></div>
+    <div class="loader"><div class="spinner"></div>Loading trending content...</div>
+  </div>
+
+  <!-- ─── VIDEOS TAB ─── -->
+  <div class="tab-content" id="tab-videos">
+    <div class="section-title"><div class="icon" style="background:rgba(59,130,246,.2);color:var(--blue)">🎬</div> Video Universe</div>
+    <div class="filter-pills">
+      <button class="filter-pill active">All</button>
+      <button class="filter-pill">Shorts</button>
+      <button class="filter-pill">Gaming</button>
+      <button class="filter-pill">Music</button>
+      <button class="filter-pill">Education</button>
+      <button class="filter-pill">Comedy</button>
+      <button class="filter-pill">Tech</button>
+    </div>
+    <div class="grid-cards" id="videoGrid"></div>
+    <div class="loader"><div class="spinner"></div>Loading more videos...</div>
+  </div>
+
+  <!-- ─── IMAGES TAB ─── -->
+  <div class="tab-content" id="tab-images">
+    <div class="section-title"><div class="icon" style="background:rgba(16,185,129,.2);color:var(--green)">🖼️</div> Image Gallery — Loaded from the Web</div>
+    <div class="filter-pills">
+      <button class="filter-pill active">All</button>
+      <button class="filter-pill">Photography</button>
+      <button class="filter-pill">Art</button>
+      <button class="filter-pill">Wallpapers</button>
+      <button class="filter-pill">Nature</button>
+      <button class="filter-pill">Abstract</button>
+      <button class="filter-pill">Portraits</button>
+    </div>
+    <div class="grid-masonry" id="imageGrid"></div>
+    <div class="loader"><div class="spinner"></div>Loading more images...</div>
+  </div>
+
+  <!-- ─── GIFS TAB ─── -->
+  <div class="tab-content" id="tab-gifs">
+    <div class="section-title"><div class="icon" style="background:rgba(236,72,153,.2);color:var(--pink)">✨</div> GIF Collection</div>
+    <div class="filter-pills">
+      <button class="filter-pill active">All</button>
+      <button class="filter-pill">Reactions</button>
+      <button class="filter-pill">Animals</button>
+      <button class="filter-pill">Sports</button>
+      <button class="filter-pill">Anime</button>
+      <button class="filter-pill">Memes</button>
+    </div>
+    <div class="grid-masonry" id="gifGrid"></div>
+    <div class="loader"><div class="spinner"></div>Loading more GIFs...</div>
+  </div>
+
+  <!-- ─── LIVE TAB ─── -->
+  <div class="tab-content" id="tab-live">
+    <div class="section-title"><div class="icon" style="background:rgba(239,68,68,.2);color:var(--red)">📡</div> Live Streams</div>
+    <div class="grid-cards" id="liveGrid"></div>
+    <div class="loader"><div class="spinner"></div>Scanning for live streams...</div>
+  </div>
+
+  <!-- ─── SCRIPTS TAB ─── -->
+  <div class="tab-content" id="tab-scripts">
+    <div class="section-title"><div class="icon" style="background:rgba(16,185,129,.2);color:var(--green)">💻</div> Code & Scripts from the Internet</div>
+    <div class="filter-pills">
+      <button class="filter-pill active">All</button>
+      <button class="filter-pill">JavaScript</button>
+      <button class="filter-pill">Python</button>
+      <button class="filter-pill">HTML/CSS</button>
+      <button class="filter-pill">Node.js</button>
+      <button class="filter-pill">AI/ML</button>
+    </div>
+    <div class="grid-masonry" id="codeGrid"></div>
+    <div class="loader"><div class="spinner"></div>Loading more scripts...</div>
+  </div>
+
+  <!-- ─── MUSIC TAB ─── -->
+  <div class="tab-content" id="tab-music">
+    <div class="section-title"><div class="icon" style="background:rgba(167,139,250,.2);color:var(--accent2)">🎵</div> Music & Audio</div>
+    <div id="musicPlayerBar"></div>
+    <div class="grid-cards" id="musicGrid"></div>
+    <div class="loader"><div class="spinner"></div>Loading more music...</div>
+  </div>
+
+  <!-- ─── MEMES TAB ─── -->
+  <div class="tab-content" id="tab-memes">
+    <div class="section-title"><div class="icon" style="background:rgba(245,158,11,.2);color:var(--orange)">😂</div> Meme Hub</div>
+    <div class="grid-masonry" id="memeGrid"></div>
+    <div class="loader"><div class="spinner"></div>Loading more memes...</div>
+  </div>
+
+  <!-- ─── PROFILE TAB ─── -->
+  <div class="tab-content" id="tab-profile">
+    <div class="profile-header">
+      <div class="big-avatar">Y</div>
+      <div class="info">
+        <h1>@YourUsername</h1>
+        <p>Content creator • Explorer of the internet • Sharing the best finds 🌐</p>
+        <div class="stats">
+          <div class="stat"><strong>142</strong><span>Posts</span></div>
+          <div class="stat"><strong>12.4K</strong><span>Followers</span></div>
+          <div class="stat"><strong>892</strong><span>Following</span></div>
+          <div class="stat"><strong>1.2M</strong><span>Likes</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-pills">
+      <button class="filter-pill active">My Posts</button>
+      <button class="filter-pill">Liked</button>
+      <button class="filter-pill">Saved</button>
+      <button class="filter-pill">Collections</button>
+    </div>
+    <div class="grid-cards" id="profileGrid"></div>
+  </div>
+
+</main>
+
+<!-- ═══════════ UPLOAD MODAL ═══════════ -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal" style="position:relative;">
+    <button class="close-btn" onclick="closeUploadModal()">✕</button>
+    <h2>📤 Upload Content</h2>
+
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+      <div class="icon">📁</div>
+      <p>Drag & drop your files here</p>
+      <p>or <span class="browse">browse</span> to upload</p>
+      <p style="font-size:12px; margin-top:8px; color:var(--text2)">Supports: MP4, GIF, JPG, PNG, WEBP, JS, PY, HTML, CSS, MP3</p>
+      <input type="file" id="fileInput" multiple accept="video/*,image/*,.js,.py,.html,.css,.mp3" style="display:none" onchange="handleFiles(this.files)">
+    </div>
+
+    <div id="uploadPreview" style="display:none; margin-bottom:20px;"></div>
+
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" id="uploadTitle" placeholder="Give your content a catchy title...">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="uploadDesc" placeholder="Tell people about your content..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <select id="uploadCategory">
+        <option value="video">🎬 Video</option>
+        <option value="image">🖼️ Image</option>
+        <option value="gif">✨ GIF</option>
+        <option value="meme">😂 Meme</option>
+        <option value="code">💻 Code/Script</option>
+        <option value="music">🎵 Music</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Tags</label>
+      <div class="tag-input" id="tagInput" onclick="this.querySelector('input').focus()">
+        <input type="text" placeholder="Add tags and press Enter..." onkeydown="addTag(event)">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeUploadModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="publishPost()">🚀 Publish</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ IMAGE FULL VIEW ═══════════ -->
+<div class="image-full-view" id="imageFullView" onclick="this.classList.remove('show')">
+  <img id="fullViewImg" src="" alt="">
+</div>
+
+<!-- ═══════════ TOAST ═══════════ -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toastMsg">Action completed!</span>
+</div>
+
+<!-- ═══════════ SCROLL TO TOP ═══════════ -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>NetVerse</h4>
+      <a href="#">About Us</a>
+      <a href="#">How It Works</a>
+      <a href="#">Press Kit</a>
+      <a href="#">Careers</a>
+      <a href="#">Blog</a>
+    </div>
+    <div class="footer-col">
+      <h4>Content</h4>
+      <a href="#">Videos</a>
+      <a href="#">Images</a>
+      <a href="#">GIFs</a>
+      <a href="#">Memes</a>
+      <a href="#">Scripts</a>
+      <a href="#">Music</a>
+    </div>
+    <div class="footer-col">
+      <h4>Community</h4>
+      <a href="#">Guidelines</a>
+      <a href="#">Creators</a>
+      <a href="#">Events</a>
+      <a href="#">Forum</a>
+      <a href="#">Discord</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="#">Help Center</a>
+      <a href="#">Safety</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact Us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 NetVerse. All internet content belongs to their respective owners.</span>
+    <span>Made with ❤️ for the internet</span>
+  </div>
+</footer>
+
+<!-- ═══════════ JAVASCRIPT ═══════════ -->
+<script>
+// ─── DATA STORE ───
+const USERS = [
+  { name: 'Alex Creator', handle: '@alexcreates', avatar: '🎨' },
+  { name: 'CodeNinja', handle: '@codeninja', avatar: '💻' },
+  { name: 'NatureLens', handle: '@naturelens', avatar: '🌿' },
+  { name: 'MemeLord', handle: '@memelord99', avatar: '😂' },
+  { name: 'MusicVibes', handle: '@musicvibes', avatar: '🎵' },
+  { name: 'TechGuru', handle: '@techguru', avatar: '🔧' },
+  { name: 'ArtFlow', handle: '@artflow', avatar: '🎭' },
+  { name: 'GameZone', handle: '@gamezone', avatar: '🎮' },
+  { name: 'SciFi World', handle: '@scifiworld', avatar: '🚀' },
+  { name: 'FoodiePics', handle: '@foodiepics', avatar: '🍕' },
+];
+
+const TITLES = {
+  video: [
+    'The Most Insane Sunset Timelapse Ever Captured',
+    'How This Robot Learns to Walk in 24 Hours',
+    'Street Musician Plays Violin — Crowd Goes Wild',
+    'Building a Treehouse in 48 Hours Straight',
+    'Deep Sea Creatures That Look Alien',
+    'Drone Flying Through a Volcano',
+    'Making Glass Art from Molten Sand',
+    'The World\'s Fastest 3D Printed Car',
+    'Northern Lights Like You\'ve Never Seen',
+    'Cat Tries to Catch Laser Pointer for 10 Minutes',
+    'Epic Skateboard Trick Compilation 2026',
+    'Cooking a Full Feast Over a Campfire',
+  ],
+  image: [
+    'Misty Mountain Sunrise', 'Tokyo Neon Nights', 'Ancient Forest Path',
+    'Crystal Clear Lake', 'Desert Sand Dunes', 'Underwater Coral Reef',
+    'City Skyline at Dusk', 'Wildflower Field', 'Snowy Cabin Retreat',
+    'Aurora Borealis Reflection', 'Autumn Road', 'Tropical Waterfall',
+    'Starry Night Desert', 'Ocean Waves at Sunset', 'Bamboo Forest',
+    'Frozen Waterfall', 'Butterfly on Flower', 'Lighthouse in Storm',
+  ],
+  gif: [
+    'Mind Blown Reaction', 'Cat Jump Fail', 'Epic Dance Move',
+    'Loading Forever', 'Happy Dance', 'Facepalm Moment',
+    'Slow Clap', 'Mic Drop', 'Excited Puppy', 'Magic Trick Reveal',
+    'Typing Furiously', 'High Five', 'Popcorn Eating', 'Nodding Approval',
+  ],
+  code: [
+    'Animated Particle Background Generator',
+    'AI Chatbot Starter Template',
+    'CSS Glassmorphism Card Effect',
+    'JavaScript Image Gallery with Lightbox',
+    'Python Web Scraper for Social Media',
+    '3D CSS Animation Loader',
+    'Node.js REST API Boilerplate',
+    'Canvas Drawing App with Save Feature',
+    'Machine Learning Image Classifier',
+    'Responsive Dashboard Layout',
+  ],
+  music: [
+    'Lo-fi Beats to Relax/Study To',
+    'Epic Cinematic Trailer Music',
+    'Synthwave Sunset Mix',
+    'Acoustic Guitar Morning Vibes',
+    'Electronic Dance Workout Mix',
+    'Jazz Piano Late Night',
+    'Ambient Nature Sounds',
+    '80s Retro Synth Pop',
+  ],
+  meme: [
+    'When the code finally works',
+    'Monday morning energy',
+    'Me pretending to understand',
+    'Friday at 4:59 PM',
+    'When someone says "quick question"',
+    'POV: You forgot to save',
+    'That one friend who...',
+    'Every group project ever',
+  ],
+};
+
+const TAGS_POOL = [
+  '#viral','#trending','#fyp','#entertainment','#cool','#amazing','#wow','#funny',
+  '#art','#nature','#tech','#gaming','#music','#dance','#travel','#food',
+  '#photography','#design','#coding','#ai','#fitness','#cats','#dogs',
+];
+
+const CODE_SAMPLES = {
+  js: `// Particle Animation System
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const particles = [];
+
+for(let i = 0; i < 150; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 2,
+    vy: (Math.random() - 0.5) * 2,
+    size: Math.random() * 3 + 1,
+    color: \`hsl(\${Math.random()*360},70%,60%)\`
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+    if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+  });
+  requestAnimationFrame(animate);
+}
+animate();`,
+
+  py: `# AI Image Generator Pipeline
+import torch
+from diffusers import StableDiffusionPipeline
+
+pipe = StableDiffusionPipeline.from_pretrained(
+    "runwayml/stable-diffusion-v1-5",
+    torch_dtype=torch.float16
+)
+pipe = pipe.to("cuda")
+
+prompt = "a sunset over mountains, digital art"
+image = pipe(prompt, num_inference_steps=50).images[0]
+image.save("generated_art.png")
+print("✨ Image generated successfully!")`,
+
+  html: `<!-- Animated Gradient Card -->
+<div class="card">
+  <div class="card-glow"></div>
+  <h2>Hello Internet</h2>
+  <p>This card has a moving gradient border</p>
+  <button class="cta">Explore</button>
+</div>
+
+<style>
+.card {
+  position: relative;
+  background: #1a1a2e;
+  border-radius: 16px;
+  padding: 40px;
+  overflow: hidden;
+}
+.card-glow {
+  position: absolute;
+  inset: -2px;
+  background: conic-gradient(
+    from var(--angle), #7c3aed, #ec4899,
+    #f59e0b, #10b981, #3b82f6, #7c3aed
+  );
+  animation: spin 4s linear infinite;
+}
+@keyframes spin {
+  to { --angle: 360deg; }
+}
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+</style>`,
+
+  css: `/* Glassmorphism Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.glass:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(124, 58, 237, 0.2);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #7c3aed, #ec4899);
+  border-radius: 4px;
+}`
+};
+
+// ─── HELPER FUNCTIONS ───
+function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+function randTags(count) {
+  const shuffled = [...TAGS_POOL].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count).join(' ');
+}
+function randViews() {
+  const n = randInt(1, 9999);
+  if (n > 1000) return (n / 1000).toFixed(1) + 'K';
+  return n.toString();
+}
+function randTime() {
+  const units = ['min','hr','day','week'];
+  const u = rand(units);
+  return randInt(1, 50) + ' ' + u + ' ago';
+}
+
+// ─── RENDER STORIES ───
+function renderStories() {
+  const bar = document.getElementById('storiesBar');
+  let html = `<div class="story-item">
+    <div class="story-ring"><div class="add-icon">+</div></div>
+    <div class="story-name">Your Story</div>
+  </div>`;
+  USERS.forEach(u => {
+    const imgId = randInt(1, 100);
+    html += `<div class="story-item">
+      <div class="story-ring"><img src="https://picsum.photos/seed/${u.handle}/100/100" alt="${u.name}"></div>
+      <div class="story-name">${u.name.split(' ')[0]}</div>
+    </div>`;
+  });
+  bar.innerHTML = html;
+}
+
+// ─── RENDER TRENDING BAR ───
+function renderTrendingBar(id) {
+  const bar = document.getElementById(id);
+  const tags = ['🔥 All','🎬 Videos','🖼️ Photos','✨ GIFs','😂 Memes','🎵 Music','💻 Code','🎮 Gaming','🌍 Nature','🐾 Animals','🍕 Food','🏋️ Fitness','📚 Education','🎨 Art','🚀 Space'];
+  bar.innerHTML = tags.map((t, i) =>
+    `<button class="trend-tag ${i===0?'active':''}" onclick="this.parentElement.querySelectorAll('.trend-tag').forEach(x=>x.classList.remove('active'));this.classList.add('active')">${t}</button>`
+  ).join('');
+}
+
+// ─── RENDER CATEGORIES ───
+function renderCategories() {
+  const grid = document.getElementById('categoryGrid');
+  const cats = [
+    { icon: '🎬', name: 'Videos', count: '2.4M' },
+    { icon: '🖼️', name: 'Photos', count: '18M' },
+    { icon: '✨', name: 'GIFs', count: '5.1M' },
+    { icon: '😂', name: 'Memes', count: '8.3M' },
+    { icon: '🎵', name: 'Music', count: '1.2M' },
+    { icon: '💻', name: 'Scripts', count: '890K' },
+    { icon: '🎮', name: 'Gaming', count: '3.7M' },
+    { icon: '🌿', name: 'Nature', count: '4.5M' },
+    { icon: '🎨', name: 'Art', count: '2.1M' },
+    { icon: '📚', name: 'Education', count: '1.8M' },
+  ];
+  grid.innerHTML = cats.map(c =>
+    `<div class="cat-card" onclick="showToast('Browsing ${c.name}...')">
+      <div class="cat-icon">${c.icon}</div>
+      <div class="cat-name">${c.name}</div>
+      <div class="cat-count">${c.count} posts</div>
+    </div>`
+  ).join('');
+}
+
+// ─── RENDER FEED CARDS ───
+function renderFeed() {
+  const grid = document.getElementById('feedGrid');
+  const types = ['video','image','gif','code','meme'];
+  let html = '';
+  for (let i = 0; i < 16; i++) {
+    const type = types[i % types.length];
+    const user = rand(USERS);
+    const title = rand(TITLES[type]);
+    const views = randViews();
+    const time = randTime();
+    const likes = randInt(10, 9999);
+    const comments = randInt(1, 500);
+    const seed = randInt(1000, 9999);
+
+    if (type === 'video') {
+      const dur = randInt(1, 59) + ':' + String(randInt(0, 59)).padStart(2, '0');
+      const thumbId = randInt(1, 200);
+      html += `<div class="media-card" data-type="video">
+        <div class="media-wrap">
+          <img src="https://picsum.photos/seed/vid${thumbId}/400/225" alt="${title}" loading="lazy">
+          <div class="play-overlay">▶</div>
+          <span class="duration">${dur}</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">${title}</div>
+          <div class="card-meta">
+            <div class="avatar" style="width:28px;height:28px;font-size:12px">${user.avatar}</div>
+            <span>${user.name}</span> • <span>${views} views</span> • <span>${time}</span>
+          </div>
+          <div class="card-stats">
+            <button class="stat-btn" onclick="toggleLike(this)">❤️ ${likes}</button>
+            <button class="stat-btn">💬 ${comments}</button>
+            <button class="stat-btn" onclick="showToast('Link copied!')">🔗 Share</button>
+            <button class="stat-btn" onclick="showToast('Saved!')">🔖 Save</button>
+          </div>
+        </div>
+      </div>`;
+    } else if (type === 'image') {
+      const h = randInt(200, 400);
+      html += `<div class="media-card" data-type="image">
+        <div class="media-wrap" onclick="openImageFull('https://picsum.photos/seed/img${seed}/800/${h}')">
+          <img src="https://picsum.photos/seed/img${seed}/400/${h}" alt="${title}" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-title">${title}</div>
+          <div class="card-meta">
+            <div class="avatar" style="width:28px;height:28px;font-size:12px">${user.avatar}</div>
+            <span>${user.name}</span> • <span>${views} views</span>
+          </div>
+          <div class="card-stats">
+            <button class="stat-btn" onclick="toggleLike(this)">❤️ ${likes}</button>
+            <button class="stat-btn">💬 ${comments}</button>
+            <button class="stat-btn" onclick="showToast('Link copied!')">🔗 Share</button>
+          </div>
+        </div>
+      </div>`;
+    } else if (type === 'gif') {
+      html += `<div class="media-card" data-type="gif">
+        <div class="media-wrap" onclick="openImageFull('https://media.giphy.com/media/${seed}/giphy.gif')">
+          <img src="https://media.giphy.com/media/${seed}/200w.gif" alt="${title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/gif${seed}/400/300'">
+          <span class="gif-badge">GIF</span>
+        </div>
+        <div class="card-body">
+          <div class="card-title">${title}</div>
+          <div class="card-meta">
+            <div class="avatar" style="width:28px;height:28px;font-size:12px">${user.avatar}</div>
+            <span>${user.name}</span> • <span>${views} views</span>
+          </div>
+          <div class="card-stats">
+            <button class="stat-btn" onclick="toggleLike(this)">❤️ ${likes}</button>
+            <button class="stat-btn">💬 ${comments}</button>
+            <button class="stat-btn" onclick="showToast('Link copied!')">🔗 Share</button>
+          </div>
+        </div>
+      </div>`;
+    } else if (type === 'code') {
+      const langs = ['js','py','html','css'];
+      const lang = rand(langs);
+      const code = CODE_SAMPLES[lang];
+      html += `<div class="code-card" data-type="code">
+        <div class="code-header">
+          <span style="font-size:13px;font-weight:600">${title}</span>
+          <span class="lang ${lang}">${lang.toUpperCase()}</span>
+        </div>
+        <pre>${code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
+        <div class="code-footer">
+          <span>by ${user.name} • ${randTime()}</span>
+          <div style="display:flex;gap:8px">
+            <button class="stat-btn" onclick="toggleLike(this)">❤️ ${randInt(5,500)}</button>
+            <button class="stat-btn" onclick="showToast('Copied to clipboard!')">📋 Copy</button>
+          </div>
+        </div>
+      </div>`;
+    } else if (type === 'meme') {
+      const h = randInt(250, 400);
+      html += `<div class="media-card" data-type="meme">
+        <div class="media-wrap" onclick="openImageFull('https://picsum.photos/seed/meme${seed}/800/${h}')">
+          <img src="https://picsum.photos/seed/meme${seed}/400/${h}" alt="${title}" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-title">${title}</div>
+          <div class="card-meta">
+            <div class="avatar" style="width:28px;height:28px;font-size:12px">${user.avatar}</div>
+            <span>${user.name}</span> • <span>${randTags(2)}</span>
+          </div>
+          <div class="card-stats">
+            <button class="stat-btn" onclick="toggleLike(this)">❤️ ${likes}</button>
+            <button class="stat-btn">💬 ${comments}</button>
+            <button class="stat-btn" onclick="showToast('Shared!')">🔗 Share</button>
+          </div>
+        </div>
+      </div>`;
+    }
+  }
+  grid.innerHTML = html;
+}
+
+// ─── RENDER VIDEO GRID ───
+function renderVideos() {
+  const grid = document.getElementById('videoGrid');
+  let html = '';
+  for (let i = 0; i < 12; i++) {
+    const user = rand(USERS);
+    const title = rand(TITLES.video);
+    const views = randViews();
+    const time = randTime();
+    const dur = randInt(1, 59) + ':' + String(randInt(0, 59)).padStart(2, '0');
+    const thumbId = randInt(200, 400);
+    const progress = randInt(0, 100);
+    html += `<div class="video-card-large">
+      <div class="thumb">
+        <img src="https://picsum.photos/seed/vid${thumbId}/600/338" alt="${title}" loading="lazy">
+        <div class="play-overlay" style="opacity:1">▶</div>
+        <span class="duration">${dur}</span>
+        ${progress > 0 ? `<div class="progress-bar" style="width:${progress}%"></div>` : ''}
+      </div>
+      <div class="info">
+        <img class="ch-avatar" src="https://picsum.photos/seed/${user.handle}/80/80" alt="${user.name}">
+        <div>
+          <h3>${title}</h3>
+          <p>${user.name} • ${views} views • ${time}</p>
+        </div>
+      </div>
+    </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+// ─── RENDER IMAGE GRID ───
+function renderImages() {
+  const grid = document.getElementById('imageGrid');
+  let html = '';
+  for (let i = 0; i < 24; i++) {
+    const seed = randInt(100, 999);
+    const h = randInt(200, 500);
+    const title = rand(TITLES.image);
+    const views = randViews();
+    const user = rand(USERS);
+    html += `<div class="media-card" onclick="openImageFull('https://picsum.photos/seed/photo${seed}/1200/${h}')">
+      <div class="media-wrap">
+        <img src="https://picsum.photos/seed/photo${seed}/400/${h}" alt="${title}" loading="lazy">
+      </div>
+      <div class="card-body">
+        <div class="card-title">${title}</div>
+        <div class="card-meta">
+          <div class="avatar" style="width:28px;height:28px;font-size:12px">${user.avatar}</div>
+          <span>${user.name}</span> • <span>${views} likes</span>
+        </div>
+      </div>
+    </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+// ─── RENDER GIF GRID ───
+function renderGifs() {
+  const grid = document.getElementById('gifGrid');
+  let html = '';
+  for (let i = 0; i < 20; i++) {
+    const seed = randInt(1, 9999);
+    const title = rand(TITLES.gif);
+    const user = rand(USERS);
+    html += `<div class="media-card">
+      <div class="media-wrap">
+        <img src="https://media.giphy.com/media/${seed}/200w.gif" alt="${title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/gif${seed}/400/300'">
+        <span class="gif-badge">GIF</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${title}</div>
+        <div class="card-meta">
+          <div class="avatar" style="width:28px;height:28px;font-size:12px">${user.avatar}</div>
+          <span>${user.name}</span>
+        </div>
+      </div>
+    </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+// ─── RENDER LIVE GRID ───
+function renderLive() {
+  const grid = document.getElementById('liveGrid');
+  let html = '';
+  for (let i = 0; i < 8; i++) {
+    const user = rand(USERS);
+    const viewers = randInt(100, 50000);
+    const title = rand(TITLES.video);
+    const thumbId = randInt(400, 600);
+    html += `<div class="media-card">
+      <div class="media-wrap">
+        <img src="https://picsum.photos/seed/live${thumbId}/400/225" alt="${title}" loading="lazy">
+        <div class="play-overlay" style="opacity:1">▶</div>
+        <span class="live-badge">● LIVE</span>
+        <div class="viewers" style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.8);padding:3px 10px;border-radius:6px;font-size:11px">
+          <span class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--red);display:inline-block"></span> ${viewers.toLocaleString()} watching
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${title}</div>
+        <div class="card-meta">
+          <div class="avatar" style="width:28px;height:28px;font-size:12px">${user.avatar}</div>
+          <span>${user.name}</span>
+        </div>
+      </div>
+    </div>`;
+  }
+  grid.innerHTML = html;
+
+  // Sidebar live
+  const sidebar = document.getElementById('liveList');
+  let shtml = '';
+  for (let i = 0; i < 5; i++) {
+    const user = rand(USERS);
+    const viewers = randInt(50, 10000);
+    shtml += `<div class="sidebar-list-item" style="cursor:pointer" onclick="showToast('Joining stream...')">
+      <img src="https://picsum.photos/seed/livech${i}/60/60" style="width:40px;height:40px;border-radius:10px;object-fit:cover">
+      <div class="info">
+        <h4>🔴 ${user.name.split(' ')[0]}'s Stream</h4>
+        <p>${rand(TITLES.video)}</p>
+      </div>
+      <div class="viewers" style="background:none;padding:0">
+        <span style="color:var(--red)">●</span> ${viewers}
+      </div>
+    </div>`;
+  }
+  sidebar.innerHTML = shtml;
+}
+
+// ─── RENDER CODE GRID ───
+function renderCode() {
+  const grid = document.getElementById('codeGrid');
+  const langs = ['js','py','html','css'];
+  let html = '';
+  for (let i = 0; i < 12; i++) {
+    const lang = langs[i % langs.length];
+    const code = CODE_SAMPLES[lang];
+    const title = rand(TITLES.code);
+    const user = rand(USERS);
+    const stars = randInt(10, 5000);
+    const forks = randInt(5, 2000);
+    html += `<div class="code-card">
+      <div class="code-header">
+        <span style="font-size:13px;font-weight:600">${title}</span>
+        <span class="lang ${lang}">${lang.toUpperCase()}</span>
+      </div>
+      <pre>${code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
+      <div class="code-footer">
+        <span>by ${user.name} • ⭐ ${stars} • 🍴 ${forks}</span>
+        <button class="stat-btn" onclick="showToast('Copied!')">📋 Copy</button>
+      </div>
+    </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+// ─── RENDER MUSIC GRID ───
+function renderMusic() {
+  const playerBar = document.getElementById('musicPlayerBar');
+  playerBar.innerHTML = `<div class="music-player">
+    <div class="album-art">🎵</div>
+    <div class="track-info">
+      <h4>Now Playing: Lo-fi Beats to Chill</h4>
+      <p>ChillBeats • 2:34 / 4:12</p>
+    </div>
+    <div class="controls">
+      <button onclick="showToast('Previous')">⏮</button>
+      <button onclick="showToast('Play/Pause')">▶</button>
+      <button onclick="showToast('Next')">⏭</button>
+    </div>
+  </div>`;
+
+  const grid = document.getElementById('musicGrid');
+  let html = '';
+  for (let i = 0; i < 8; i++) {
+    const title = rand(TITLES.music);
+    const user = rand(USERS);
+    const duration = randInt(2, 8) + ':' + String(randInt(0, 59)).padStart(2, '0');
+    const plays = randViews();
+    html += `<div class="media-card">
+      <div class="media-wrap" style="aspect-ratio:1/1;background:linear-gradient(135deg,hsl(${randInt(0,360)},70%,30%),hsl(${randInt(0,360)},70%,20%));display:flex;align-items:center;justify-content:center;font-size:64px;cursor:pointer" onclick="showToast('Now playing: ${title}')">
+        🎵
+      </div>
+      <div class="card-body">
+        <div class="card-title">${title}</div>
+        <div class="card-meta">
+          <div class="avatar" style="width:28px;height:28px;font-size:12px">${user.avatar}</div>
+          <span>${user.name}</span> • <span>${plays} plays</span> • <span>${duration}</span>
+        </div>
+      </div>
+    </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+// ─── RENDER MEMES GRID ───
+function renderMemes() {
+  const grid = document.getElementById('memeGrid');
+  let html = '';
+  for (let i = 0; i < 16; i++) {
+    const seed = randInt(10000, 99999);
+    const h = randInt(250, 450);
+    const title = rand(TITLES.meme);
+    const user = rand(USERS);
+    const likes = randInt(100, 99999);
+    html += `<div class="media-card">
+      <div class="media-wrap" onclick="openImageFull('https://picsum.photos/seed/meme${seed}/800/${h}')">
+        <img src="https://picsum.photos/seed/meme${seed}/400/${h}" alt="${title}" loading="lazy">
+      </div>
+      <div class="card-body">
+        <div class="card-title">${title}</div>
+        <div class="card-meta">
+          <div class="avatar" style="width:28px;height:28px;font-size:12px">${user.avatar}</div>
+          <span>${user.name}</span> • <span>${randTags(2)}</span>
+        </div>
+        <div class="card-stats">
+          <button class="stat-btn" onclick="toggleLike(this)">😂 ${likes}</button>
+          <button class="stat-btn" onclick="showToast('Shared!')">🔗 Share</button>
+        </div>
+      </div>
+    </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+// ─── RENDER SIDEBAR TRENDING ───
+function renderTrendingSidebar() {
+  const list = document.getElementById('trendingList');
+  const items = [
+    { title: 'AI Generates Photorealistic Art', views: '4.2M' },
+    { title: 'Cute Puppy Compilation 2026', views: '3.8M' },
+    { title: 'Epic Drone Mountain Flyover', views: '2.1M' },
+    { title: 'How to Build a PC in 2026', views: '1.9M' },
+    { title: 'Street Food Around the World', views: '1.5M' },
+  ];
+  list.innerHTML = items.map((item, i) => {
+    const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+    return `<div class="sidebar-list-item">
+      <div class="rank ${rankClass}">${i + 1}</div>
+      <div class="info"><h4>${item.title}</h4><p>Trending Now</p></div>
+      <div class="views">${item.views} views</div>
+    </div>`;
+  }).join('');
+}
+
+// ─── RENDER SUGGESTED CREATORS ───
+function renderSuggested() {
+  const list = document.getElementById('suggestedCreators');
+  let html = '';
+  for (let i = 0; i < 5; i++) {
+    const user = USERS[i];
+    const followers = randInt(1000, 500000).toLocaleString();
+    html += `<div class="sidebar-list-item" style="cursor:pointer">
+      <div class="avatar" style="width:40px;height:40px;font-size:18px">${user.avatar}</div>
+      <div class="info">
+        <h4>${user.name}</h4>
+        <p>${followers} followers</p>
+      </div>
+      <button class="btn btn-primary" style="padding:4px 12px;font-size:11px" onclick="this.textContent=this.textContent==='Follow'?'Following':'Follow';this.classList.toggle('btn-ghost');this.classList.toggle('btn-primary')">Follow</button>
+    </div>`;
+  }
+  list.innerHTML = html;
+}
+
+// ─── RENDER PROFILE GRID ───
+function renderProfile() {
+  const grid = document.getElementById('profileGrid');
+  const types = ['video','image','gif','meme'];
+  let html = '';
+  for (let i = 0; i < 8; i++) {
+    const type = types[i % types.length];
+    const title = rand(TITLES[type]);
+    const seed = randInt(50000, 99999);
+    const h = randInt(200, 400);
+    if (type === 'video') {
+      html += `<div class="media-card">
+        <div class="media-wrap"><img src="https://picsum.photos/seed/profvid${seed}/400/225" loading="lazy"><div class="play-overlay">▶</div><span class="duration">${randInt(1,30)}:${String(randInt(0,59)).padStart(2,'0')}</span></div>
+        <div class="card-body"><div class="card-title">${title}</div><div class="card-stats"><button class="stat-btn">❤️ ${randInt(100,5000)}</button><button class="stat-btn">💬 ${randInt(5,200)}</button></div></div>
+      </div>`;
+    } else {
+      html += `<div class="media-card">
+        <div class="media-wrap"><img src="https://picsum.photos/seed/prof${seed}/400/${h}" loading="lazy"></div>
+        <div class="card-body"><div class="card-title">${title}</div><div class="card-stats"><button class="stat-btn">❤️ ${randInt(100,5000)}</button><button class="stat-btn">💬 ${randInt(5,200)}</button></div></div>
+      </div>`;
+    }
+  }
+  grid.innerHTML = html;
+}
+
+// ─── RENDER TRENDING GRID ───
+function renderTrendingGrid() {
+  const grid = document.getElementById('trendingGrid');
+  const types = ['video','image','gif','meme'];
+  let html = '';
+  for (let i = 0; i < 16; i++) {
+    const type = types[i % types.length];
+    const user = rand(USERS);
+    const title = rand(TITLES[type]);
+    const views = randInt(50000, 9999999).toLocaleString();
+    const seed = randInt(20000, 99999);
+    const h = randInt(200, 400);
+    html += `<div class="media-card">
+      <div class="media-wrap">
+        <img src="https://picsum.photos/seed/trend${seed}/400/${h}" loading="lazy">
+        <div class="play-overlay">▶</div>
+        <span class="hd-badge">HD</span>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${title}</div>
+        <div class="card-meta">
+          <div class="avatar" style="width:28px;height:28px;font-size:12px">${user.avatar}</div>
+          <span>${user.name}</span> • <span>${views} views</span>
+        </div>
+      </div>
+    </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+// ─── TAB SWITCHING ───
+function showTab(tabName) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tabName).classList.add('active');
+  document.querySelector(`.nav-tab[data-tab="${tabName}"]`).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── FEED FILTER ───
+function filterFeed(btn, type) {
+  btn.parentElement.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('#feedGrid .media-card, #feedGrid .code-card');
+  cards.forEach(c => {
+    if (type === 'all' || c.dataset.type === type) {
+      c.style.display = '';
+    } else {
+      c.style.display = 'none';
+    }
+  });
+}
+
+// ─── SEARCH FILTER ───
+function filterContent() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  if (!q) return;
+  // Simple: show toast for demo
+  if (q.length > 2) {
+    showToast(`Searching for "${q}" across the internet...`);
+  }
+}
+
+// ─── LIKE TOGGLE ───
+function toggleLike(btn) {
+  btn.classList.toggle('liked');
+  if (btn.classList.contains('liked')) {
+    const num = parseInt(btn.textContent.replace(/[^0-9]/g, '')) || 0;
+    btn.innerHTML = btn.innerHTML.replace(/[0-9]+/, num + 1);
+  }
+}
+
+// ─── IMAGE FULL VIEW ───
+function openImageFull(src) {
+  document.getElementById('fullViewImg').src = src;
+  document.getElementById('imageFullView').classList.add('show');
+}
+
+// ─── UPLOAD MODAL ───
+function openUploadModal() {
+  document.getElementById('uploadModal').classList.add('show');
+}
+function closeUploadModal() {
+  document.getElementById('uploadModal').classList.remove('show');
+}
+
+// ─── FILE HANDLING ───
+function handleFiles(files) {
+  const preview = document.getElementById('uploadPreview');
+  preview.style.display = 'block';
+  let html = '<div style="display:flex;gap:12px;flex-wrap:wrap">';
+  Array.from(files).forEach(f => {
+    if (f.type.startsWith('image/') || f.type.startsWith('video/')) {
+      const url = URL.createObjectURL(f);
+      const isVideo = f.type.startsWith('video/');
+      html += `<div style="width:120px;height:120px;border-radius:12px;overflow:hidden;background:var(--card2)">
+        ${isVideo ? `<video src="${url}" style="width:100%;height:100%;object-fit:cover" muted></video>` : `<img src="${url}" style="width:100%;height:100%;object-fit:cover">`}
+      </div>`;
+    } else {
+      html += `<div style="padding:12px;border-radius:12px;background:var(--card2);font-size:12px">📄 ${f.name}</div>`;
+    }
+  });
+  html += '</div>';
+  preview.innerHTML = html;
+  showToast(`${files.length} file(s) selected`);
+}
+
+// ─── TAG INPUT ───
+function addTag(e) {
+  if (e.key === 'Enter' && e.target.value.trim()) {
+    const tag = e.target.value.trim();
+    const el = document.createElement('span');
+    el.className = 'tag';
+    el.innerHTML = `${tag} <button onclick="this.parentElement.remove()">×</button>`;
+    document.getElementById('tagInput').insertBefore(el, e.target);
+    e.target.value = '';
+  }
+}
+
+// ─── PUBLISH POST ───
+function publishPost() {
+  const title = document.getElementById('uploadTitle').value;
+  if (!title) { showToast('Please add a title!'); return; }
+  closeUploadModal();
+  showToast('🚀 Published successfully! Your content is now live.');
+  // Reset form
+  document.getElementById('uploadTitle').value = '';
+  document.getElementById('uploadDesc').value = '';
+  document.getElementById('uploadPreview').style.display = 'none';
+}
+
+// ─── TOAST ───
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// ─── THEME TOGGLE ───
+function toggleTheme() {
+  document.body.classList.toggle('theme-light');
+  showToast(document.body.classList.contains('theme-light') ? '☀️ Light mode' : '🌙 Dark mode');
+}
+
+// ─── SCROLL TO TOP ───
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  if (window.scrollY > 500) btn.classList.add('show');
+  else btn.classList.remove('show');
+});
+
+// ─── INFINITE SCROLL SIMULATION ───
+let loadCount = 0;
+window.addEventListener('scroll', () => {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+    loadCount++;
+    if (loadCount < 5) {
+      const loader = document.querySelector('.tab-content.active .loader');
+      if (loader) {
+        setTimeout(() => {
+          showToast('Loading more content...');
+        }, 500);
+      }
+    }
+  }
+});
+
+// ─── DRAG & DROP ───
+const uploadZone = document.getElementById('uploadZone');
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  handleFiles(e.dataTransfer.files);
+});
+
+// ─── CLOSE MODAL ON OVERLAY CLICK ───
+document.getElementById('uploadModal').addEventListener('click', function(e) {
+  if (e.target === this) closeUploadModal();
+});
+
+// ─── INIT ───
+function init() {
+  renderStories();
+  renderTrendingBar('trendingBar');
+  renderTrendingBar('trendingBar2');
+  renderCategories();
+  renderFeed();
+  renderVideos();
+  renderImages();
+  renderGifs();
+  renderLive();
+  renderCode();
+  renderMusic();
+  renderMemes();
+  renderTrendingSidebar();
+  renderSuggested();
+  renderProfile();
+  renderTrendingGrid();
+}
+
+init();
+</script>
+</body>
+</html>
